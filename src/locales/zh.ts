@@ -1,0 +1,17 @@
+export const zh = {
+  heroEyebrow: "一种更注重思考的学习方式",
+  heroTitle: "一步一步，构建真正的理解。",
+  heroDescription:
+    "选择一个学习目标，获得循序渐进的指导，并通过有针对性的练习巩固所学内容。",
+  heroGetStarted: "开始学习",
+  navigationHome: "首页",
+  carouselPreviousSlide: "上一张幻灯片",
+  carouselNextSlide: "下一张幻灯片",
+  carouselChooseSlide: "选择幻灯片",
+  publishingReadMore: "阅读更多",
+  publishingPublished: "已发布",
+  publishingDraft: "草稿",
+  publishingLastUpdated: "最后更新",
+  publishingReferences: "参考资料",
+  publishingSource: "来源",
+} as const;

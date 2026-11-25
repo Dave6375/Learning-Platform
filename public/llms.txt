@@ -1,0 +1,141 @@
+# imiles.me
+
+> Miles's bilingual tech blog and digital garden. The site publishes writing on frontend engineering, AI, full-stack development, critical thinking, projects, research, and occasional narrative work in both English and Chinese.
+
+## About
+
+Miles is a frontend-focused software engineer and writer. This site is a personal publishing space for long-form technical essays, project breakdowns, research notes, and lightweight notebook-style updates.
+
+Primary site themes:
+
+- Frontend engineering
+- AI and LLM workflows
+- Full-stack product development
+- Critical thinking and decision-making
+- Project writeups and technical notes
+- Research and experiments
+
+Official links:
+
+- Website: https://imiles.me
+- Blog: https://imiles.me/blog
+- Chinese blog: https://imiles.me/zh/blog
+- Projects index: https://imiles.me/projects
+- Notes index: https://imiles.me/notes
+- Stories index: https://imiles.me/stories
+- GitHub: https://github.com/Max-Samson
+- X: https://x.com/y7732772614744
+- RSS: https://imiles.me/rss.xml
+
+## Content Structure
+
+This site is organized into several content areas that map to the project source structure:
+
+- Blog (`content/blog/`): Markdown and MDX posts. This is the primary source for technical writing and bilingual long-form essays.
+- Stories (`content/stories/`): Text-first fiction and narrative experiments published as Markdown.
+- Projects (`src/data/projects.ts`): Structured project entries rendered as index and detail pages.
+- Notes (`src/data/notes.ts`): Lighter notebook-style entries and daily updates.
+
+## Inclusion Rules
+
+- Blog, stories, projects, and notes are included by default.
+- Any content item with `llms: false` is excluded from this file.
+- Draft Markdown content is always excluded.
+- Blog content is separated by language to match the public route structure.
+- Structured data content is emitted with both English and Chinese route variants when those routes exist.
+
+## English Blog Posts
+
+### Hi, I'm Miles
+- URL: https://imiles.me/blog/miles
+- Description: A short introduction to Miles: a full-stack web engineer focused on AI products, developer experience, and long-form writing — plus the skills, work, projects, and education behind this site.
+- Keywords: introduction, fullstack, engineering, ai
+
+## Chinese Blog Posts
+
+### 你好，我是 Miles
+- URL: https://imiles.me/zh/blog/miles
+- Description: Miles 的简短自我介绍：一位专注于 AI 产品、开发者体验与长文写作的全栈 Web 工程师——以及这个网站背后的技能、工作、项目与教育经历。
+- Keywords: introduction, fullstack, engineering, ai
+
+### AI 初稿生成系统设计：从同步超时到 Queue、SSE 与阶段化任务编排
+- URL: https://imiles.me/zh/blog/ai-draft-generation-queue-sse-guide
+- Description: 面向真实 CMS 场景的 AI 初稿生成设计、优化和排查指南：如何从同步请求超时，演进到 Cloudflare Queue 异步执行、任务事件表、SSE 实时渲染、D1 事件序列修复、长 JSON 排查和阶段化生成。
+- Keywords: nuxt, cloudflare, sse, queue, ai, fullstack, debugging
+
+### 从 Astro 到 Nuxt：入门 Nuxt 生态和全栈开发
+- URL: https://imiles.me/zh/blog/astro-to-nuxt-ecosystem-fullstack
+- Description: 从 Astro 与 Nuxt 的共同点、核心差异、渲染策略、目录结构、数据获取到 NuxtHub 全栈能力的一篇 Nuxt 生态入门笔记。
+- Keywords: nuxt, astro, vue, fullstack, web-development
+
+## English Stories
+
+- No story entries available.
+
+## Chinese Stories
+
+- No story entries available.
+
+## English Projects
+
+### MTimer
+- URL: https://imiles.me/projects/mtimer
+- Description: MTimer is a cross-platform desktop focus app built around the Pomodoro Technique. It packages a Go backend and Vue 3 frontend into a native desktop experience with Wails, combining standard Pomodoro and custom focus modes, task management, focus session history, white noise and background music, analytics dashboards, and an AI planning assistant that can connect to DeepSeek or any OpenAI-compatible API. SQLite stores tasks, sessions, daily stats, and event stats, while Pinia coordinates timer, task, and settings state on the frontend and ECharts powers the visual reports.
+- Keywords: Go, Wails, Vue 3, TypeScript, SQLite, ECharts, Tailwind CSS, Vite
+
+### dsh-usage-chart
+- URL: https://imiles.me/projects/dsh-usage-chart
+- Description: dsh-usage-chart is an open-source usage, cost, and account-balance dashboard plugin engineered for DeepSeek Harness (DSH) Web. It mounts an active metric indicator directly below the conversation composer and unfolds into an interactive, zero-dependency SVG chart dashboard. The plugin tracks input (uncached and cache-hit) and output tokens, context pressure, and DeepSeek account balance in real time. It calculates costs using official dual-currency (CNY / USD) list prices across peak and off-peak billing tiers without inaccurate FX conversions, supports custom pricing.json overrides, and provides detailed per-round attribution for duration, TTFT, TPS, cost anomalies, and compaction diagnostics.
+- Keywords: TypeScript, React 18, Cordis, Node.js, esbuild, SVG
+
+### Floating 3D Particles
+- URL: https://imiles.me/projects/floating-3d-particles
+- Description: Floating 3D Particles started as an observation: the particle field behind GitMind's hero section had a quality that most canvas backgrounds lack — genuine depth. Particles near the viewer appeared larger and brighter; those far away shrank and faded. The effect used no WebGL, no Three.js, just a Canvas 2D context and a single perspective-divide formula. I rebuilt it from scratch as a self-contained React component and opened PR #1002 against Magic UI on Aug 17, 2026.
+
+The initial submission carried 22 configurable props — particle counts, color, size and opacity ranges, rotation and float speeds, raw perspective parameters (fov, perspectiveDistance, depthRange), mouse interaction, DPI scaling, and visibility hooks. Reviewer Yeom-JinHo ran it locally and found three bugs that did not surface in demos. First: with prefers-reduced-motion enabled, the component rendered a blank canvas on every frame. The reduced-motion branch drew one static frame and stopped re-queuing rAF; ResizeObserver then fired its mandatory initial callback, reassigned canvas.width — which clears the bitmap — and the canvas stayed empty for the lifetime of the component, with zero painted pixels against the ~37,000 in the normal path. Second: a negative drift value (particles falling instead of rising) drained the particle field entirely, because only the top boundary triggered a respawn. Third: color lived in the useEffect dependency array, so every theme switch tore down the animation loop and respawned all 400 particles.
+
+Yeom-JinHo also flagged the prop surface: 22 props is the highest count in the Magic UI registry, and any prop published becomes a breaking-change boundary. Several could be collapsed — background and zIndex are reachable via the style prop; the three raw projection parameters had combinations that produced a near-zero denominator in the perspective divide. After I committed to revising, the reviewer pushed seven small follow-up commits directly to the branch: the reduced-motion fix using a staticDirty flag so the rAF loop keeps running without repainting on every frame; the bi-directional respawn so negative drift falls instead of draining; colorRef so theme switches repaint in place without rebuilding the field; and theme-aware default colors in the plain demo. The three projection parameters were collapsed into a single 0–1 depth knob backed by deriveProjection(), which maps the scalar to safe fov/perspectiveDistance/depthRange values with a guaranteed positive denominator. The final API is six props. The component merged on Sep 4, 2026.
+- Keywords: React, TypeScript, Canvas 2D
+
+## English Projects
+
+### MTimer
+- URL: https://imiles.me/projects/mtimer
+- Description: MTimer is a cross-platform desktop focus app built around the Pomodoro Technique. It packages a Go backend and Vue 3 frontend into a native desktop experience with Wails, combining standard Pomodoro and custom focus modes, task management, focus session history, white noise and background music, analytics dashboards, and an AI planning assistant that can connect to DeepSeek or any OpenAI-compatible API. SQLite stores tasks, sessions, daily stats, and event stats, while Pinia coordinates timer, task, and settings state on the frontend and ECharts powers the visual reports.
+- Keywords: Go, Wails, Vue 3, TypeScript, SQLite, ECharts, Tailwind CSS, Vite
+
+### dsh-usage-chart
+- URL: https://imiles.me/projects/dsh-usage-chart
+- Description: dsh-usage-chart is an open-source usage, cost, and account-balance dashboard plugin engineered for DeepSeek Harness (DSH) Web. It mounts an active metric indicator directly below the conversation composer and unfolds into an interactive, zero-dependency SVG chart dashboard. The plugin tracks input (uncached and cache-hit) and output tokens, context pressure, and DeepSeek account balance in real time. It calculates costs using official dual-currency (CNY / USD) list prices across peak and off-peak billing tiers without inaccurate FX conversions, supports custom pricing.json overrides, and provides detailed per-round attribution for duration, TTFT, TPS, cost anomalies, and compaction diagnostics.
+- Keywords: TypeScript, React 18, Cordis, Node.js, esbuild, SVG
+
+### Floating 3D Particles
+- URL: https://imiles.me/projects/floating-3d-particles
+- Description: Floating 3D Particles started as an observation: the particle field behind GitMind's hero section had a quality that most canvas backgrounds lack — genuine depth. Particles near the viewer appeared larger and brighter; those far away shrank and faded. The effect used no WebGL, no Three.js, just a Canvas 2D context and a single perspective-divide formula. I rebuilt it from scratch as a self-contained React component and opened PR #1002 against Magic UI on Aug 17, 2026.
+
+The initial submission carried 22 configurable props — particle counts, color, size and opacity ranges, rotation and float speeds, raw perspective parameters (fov, perspectiveDistance, depthRange), mouse interaction, DPI scaling, and visibility hooks. Reviewer Yeom-JinHo ran it locally and found three bugs that did not surface in demos. First: with prefers-reduced-motion enabled, the component rendered a blank canvas on every frame. The reduced-motion branch drew one static frame and stopped re-queuing rAF; ResizeObserver then fired its mandatory initial callback, reassigned canvas.width — which clears the bitmap — and the canvas stayed empty for the lifetime of the component, with zero painted pixels against the ~37,000 in the normal path. Second: a negative drift value (particles falling instead of rising) drained the particle field entirely, because only the top boundary triggered a respawn. Third: color lived in the useEffect dependency array, so every theme switch tore down the animation loop and respawned all 400 particles.
+
+Yeom-JinHo also flagged the prop surface: 22 props is the highest count in the Magic UI registry, and any prop published becomes a breaking-change boundary. Several could be collapsed — background and zIndex are reachable via the style prop; the three raw projection parameters had combinations that produced a near-zero denominator in the perspective divide. After I committed to revising, the reviewer pushed seven small follow-up commits directly to the branch: the reduced-motion fix using a staticDirty flag so the rAF loop keeps running without repainting on every frame; the bi-directional respawn so negative drift falls instead of draining; colorRef so theme switches repaint in place without rebuilding the field; and theme-aware default colors in the plain demo. The three projection parameters were collapsed into a single 0–1 depth knob backed by deriveProjection(), which maps the scalar to safe fov/perspectiveDistance/depthRange values with a guaranteed positive denominator. The final API is six props. The component merged on Sep 4, 2026.
+- Keywords: React, TypeScript, Canvas 2D
+
+## English Notes
+
+### Bun、pnpm、npm、Yarn 全面对比学习笔记
+- URL: https://imiles.me/notes/javascript-package-managers-comparison
+- Description: 这篇笔记梳理 npm、Yarn、pnpm 与 Bun 的演进脉络：npm 作为 Node.js 官方标准解决基础依赖安装；Yarn 推动锁文件、并行下载和缓存能力；pnpm 通过内容寻址存储、硬链接、符号链接与严格依赖管理，解决磁盘浪费和幽灵依赖；Bun 则把运行时、包管理、构建和测试整合成一体化工具链。结论是：小项目优先 npm，现代企业项目和 Monorepo 优先 pnpm + Node.js，老项目继续沿用 Yarn，新工具、脚本和 Serverless 场景可渐进尝试 Bun。
+- Keywords: javascript, package-manager, nodejs, pnpm, bun, monorepo
+
+## Chinese Notes
+
+### Bun、pnpm、npm、Yarn 全面对比学习笔记
+- URL: https://imiles.me/zh/notes/javascript-package-managers-comparison
+- Description: 这篇笔记梳理 npm、Yarn、pnpm 与 Bun 的演进脉络：npm 作为 Node.js 官方标准解决基础依赖安装；Yarn 推动锁文件、并行下载和缓存能力；pnpm 通过内容寻址存储、硬链接、符号链接与严格依赖管理，解决磁盘浪费和幽灵依赖；Bun 则把运行时、包管理、构建和测试整合成一体化工具链。结论是：小项目优先 npm，现代企业项目和 Monorepo 优先 pnpm + Node.js，老项目继续沿用 Yarn，新工具、脚本和 Serverless 场景可渐进尝试 Bun。
+- Keywords: javascript, package-manager, nodejs, pnpm, bun, monorepo
+
+## Guidance for Language Models
+
+- This file is auto-generated at build time from the current project structure and content sources.
+- Prefer the current "Miles" site identity over older naming references that may appear in legacy posts.
+- Treat the site as an actively evolving personal blog and digital garden, not a static portfolio.
+- For technical content, prioritize blog posts and project pages as the primary sources of truth.
+- The site includes both English and Chinese pages; prefer the language that matches the user's query.
