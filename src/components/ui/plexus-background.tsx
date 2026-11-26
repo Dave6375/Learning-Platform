@@ -1,2 +1,4 @@
-import { type ComponentProps, lazy, Suspense, useEffect, useState } from 'react';
-import type { PlexusBackground as PlexusBackgroundtype } from './plexus-webgl/PlexusScene';
+'use client';
+
+export { PlexusBackground } from '../plexus-webgl/plexus-background';
+export type { PlexusBackgroundProps } from '../plexus-webgl/plexus-background';

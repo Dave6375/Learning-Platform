@@ -7,7 +7,7 @@
 import { useFrame } from '@react-three/fiber';
 import { useMemo, useRef, type MutableRefObject } from 'react';
 import * as THREE from 'three';
-import type { PlexusTheme } from './PlexusTheme';
+import type { PlexusTheme } from './plexus-theme-runtime';
 import { lineFragmentShader, lineVertexShader } from './shaders';
 
 const DEFAULT_CONNECTION_DIST = 3.0;

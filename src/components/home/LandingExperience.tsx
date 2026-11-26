@@ -10,6 +10,10 @@ import {
     useRef,
     useState,
 } from "react";
-import {PlexusAdapter} from "@/components/ui/plexus-background";
+import { PlexusBackground } from "@/components/ui/plexus-background";
 import {useTextScramble} from "@/components/ui/text-scramble";
 import { type Local, useTranslation } from '@/lib/trilingual';
+
+const NAME_CHARS = [
+    {id: }
+]

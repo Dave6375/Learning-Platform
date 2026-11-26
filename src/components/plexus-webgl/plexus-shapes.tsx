@@ -1,4 +1,4 @@
-import { SIGNATURE_MING_PATHS, SIGNATURE_SHENSHUAI_PATHS } from './signature-ming-paths';
+import { SIGNATURE_ANEX_PATHS, SIGNATURE_CHRONOS_PATHS } from './signature-paths';
 
 // =============================================================================
 // Shape generators for plexus-background
@@ -593,9 +593,9 @@ export const MOBIUS_BAND: ShapeConfig = {
     jitter: 0.12,
 };
 
-/** 英文花体手绘签名「Ming」（当前激活展示） */
-export const SIGNATURE_MING: ShapeConfig = {
-    generate: (n) => normalize3D(sampleMultiPath3D(SIGNATURE_MING_PATHS, n)),
+/** Cursive 3D signature for Chronos. */
+export const SIGNATURE_CHRONOS: ShapeConfig = {
+    generate: (n) => normalize3D(sampleMultiPath3D(SIGNATURE_CHRONOS_PATHS, n)),
     spinX: 0,
     spinY: 0,
     spinZ: 0,
@@ -604,9 +604,9 @@ export const SIGNATURE_MING: ShapeConfig = {
     lerpMul: 3.5,
 };
 
-/** 中文行草手绘签名（已完整保留，暂时不展示） */
-export const SIGNATURE_SHENSHUAI_ZH: ShapeConfig = {
-    generate: (n) => normalize3D(sampleMultiPath3D(SIGNATURE_SHENSHUAI_PATHS, n)),
+/** Cursive 3D signature for ANEX. */
+export const SIGNATURE_ANEX: ShapeConfig = {
+    generate: (n) => normalize3D(sampleMultiPath3D(SIGNATURE_ANEX_PATHS, n)),
     spinX: 0,
     spinY: 0,
     spinZ: 0,

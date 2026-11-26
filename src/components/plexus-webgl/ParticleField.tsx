@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import type { HeroPatternId, ParticlePattern } from './hero-pattern-adapters';
 import type { Point3D, ShapeConfig } from './plexus-shapes';
 import { particleFragmentShader, particleVertexShader } from './shaders';
-import type { PlexusTheme } from './PlexusTheme';
+import type { PlexusTheme } from './plexus-theme-runtime';
 
 // =============================================================================
 // Constants

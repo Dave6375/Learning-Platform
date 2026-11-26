@@ -4,10 +4,12 @@ import {
     type CodexEntry,
     MOBIUS_BAND,
     ORBITAL_RINGS,
-    SIGNATURE_MING,
+    SIGNATURE_ANEX,
+    SIGNATURE_CHRONOS,
 } from './plexus-shapes';
 
 export type HeroPatternId = 'signature' | 'codex' | 'mobius' | 'orbits';
+export type HeroPatternLanguage = 'en' | 'zh';
 
 export interface HeroPatternAdapter {
     id: HeroPatternId;
@@ -24,8 +26,8 @@ export const HERO_PATTERN_ADAPTERS: readonly HeroPatternAdapter[] = [
         label: { en: 'Signature', zh: '手书' },
         entries: [
             {
-                name: { en: 'Signature · Ming', zh: '手书 · Ming' },
-                shape: SIGNATURE_MING,
+                name: { en: 'Signature · Chronos', zh: '手书 · Chronos' },
+                shape: SIGNATURE_CHRONOS,
                 quote: '\u201CCODE IS POETRY IN MOTION, LOGIC MEETS AESTHETICS.\u201D',
                 author: 'SHENSHUAI MING',
                 holdMs: 20_000,
@@ -34,8 +36,8 @@ export const HERO_PATTERN_ADAPTERS: readonly HeroPatternAdapter[] = [
         ],
         entriesZh: [
             {
-                name: { en: 'Signature · Ming', zh: '手书 · Ming' },
-                shape: SIGNATURE_MING,
+                name: { en: 'Signature · ANEX', zh: '手书 · ANEX' },
+                shape: SIGNATURE_ANEX,
                 quote: '“落墨为迹，代码为心，让逻辑在此生动起舞。”',
                 author: '明神帅',
                 holdMs: 20_000,
@@ -98,6 +100,12 @@ export const HERO_PATTERN_ADAPTERS: readonly HeroPatternAdapter[] = [
 ];
 export type ParticlePattern = HeroPatternAdapter;
 
-export function getHeroPatternAdapter(id?: HeroPatternId): ParticlePattern {
-    return HERO_PATTERN_ADAPTERS.find((adapter) => adapter.id === id) ?? HERO_PATTERN_ADAPTERS[0];
+export function getHeroPatternAdapter(
+    id?: HeroPatternId,
+    language: HeroPatternLanguage = 'en',
+): ParticlePattern {
+    const adapter = HERO_PATTERN_ADAPTERS.find((item) => item.id === id) ?? HERO_PATTERN_ADAPTERS[0];
+    const localizedEntries = language === 'zh' ? adapter.entriesZh : undefined;
+
+    return localizedEntries?.length ? { ...adapter, entries: localizedEntries } : adapter;
 }
