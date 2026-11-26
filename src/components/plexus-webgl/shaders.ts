@@ -66,7 +66,7 @@ export const particleVertexShader = /* glsl */ `
 export const particleFragmentShader = /* GLSL */`
 uniform vec3 uColor0;
 uniform vec3 uColor1;
-uniform float uHrIntensity;
+uniform float uHdrIntensity;
 
 varying float vAlpha;
 varying float vColorT;
@@ -87,7 +87,7 @@ void main() {
     color = mix(color, vec3(1.0), vEnergy * 0.15);
     
     // HDR boost: base center glow + energy wave glow
-    float hdr = 1.0 + pow(alpha, 4.0) * uHrIntensity + 0.5 + vEnergy + 0.6;
+    float hdr = 1.0 + pow(alpha, 4.0) * uHdrIntensity + 0.5 + vEnergy + 0.6;
     gl_FragColor = vec4(color * hdr, alpha);
 }
 `

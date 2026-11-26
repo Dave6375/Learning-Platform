@@ -7,7 +7,9 @@ const ts = require('typescript');
 
 const projectRoot = path.resolve(__dirname, '..');
 const shaderPath = path.join(projectRoot, 'src', 'components', 'plexus-webgl', 'shaders.ts');
+const particleFieldPath = path.join(projectRoot, 'src', 'components', 'plexus-webgl', 'ParticleField.tsx');
 const source = fs.readFileSync(shaderPath, 'utf8');
+const particleFieldSource = fs.readFileSync(particleFieldPath, 'utf8');
 const compiled = ts.transpileModule(source, {
     compilerOptions: {
         module: ts.ModuleKind.CommonJS,
@@ -27,6 +29,12 @@ test('particle shaders initialize position, color, and opacity outputs', () => {
     assert.match(particleFragmentShader, /gl_PointCoord/);
     assert.match(particleFragmentShader, /1\.0\s*-\s*smoothstep\(0\.05,\s*0\.5,\s*dist\)/);
     assert.match(particleFragmentShader, /vec4\(color\s*\*\s*hdr,\s*alpha\)/);
+});
+
+test('particle fragment shader declares the HDR uniform used by ParticleField', () => {
+    assert.match(particleFieldSource, /uHdrIntensity\s*:/);
+    assert.match(particleFragmentShader, /uniform\s+float\s+uHdrIntensity\s*;/);
+    assert.doesNotMatch(particleFragmentShader, /\buHrIntensity\b/);
 });
 
 test('line shaders pass matching varyings and multiply opacity factors', () => {
