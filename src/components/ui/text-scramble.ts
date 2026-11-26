@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useReducedMotion } from './useReducedMotion';
+import { useReducedMotion } from '../../../hooks/src/hooks/useReducedMotion';
 
 /**
  * This file provides a React hook that makes text animate like a **digital decoding effect**.
