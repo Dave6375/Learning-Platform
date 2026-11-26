@@ -3,7 +3,10 @@
  */
 'use client';
 import LandingExperience from './LandingExperience'
+import {Local} from "@/lib/trilingual";
 
-export default function Hero({ lang }: { lang: string }) {
-  return <LandingExperience lang={lang} />;
+export default function Hero({ lang }: { lang: Local }) {
+  return (
+      <LandingExperience lang={lang}/>
+  );
 }
