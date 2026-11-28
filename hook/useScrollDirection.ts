@@ -44,13 +44,15 @@ export function useScrollDirection() {
     }, [update])
 
     useEffect(() => {
-        if (e.clientY <= HOVER_ZONE_PX) {
-            setIsVisible(false);
-        }
+        const onMouseMove = (e: MouseEvent) => {
+            if (e.clientY <= HOVER_ZONE_PX) {
+                setIsVisible(false);
+            }
+        };
 
         window.addEventListener('mousemove', onMouseMove, { passive: true });
         return () => window.removeEventListener('mousemove', onMouseMove);
-    }, [isVisible])
+    }, [])
 
     return { isVisible, isAtTop }
 }

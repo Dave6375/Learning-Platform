@@ -87,13 +87,13 @@ function formatMessage(template: string, params?: TranslationParams) {
     return result;
 }
 
-function createTranslation(lang: Local) {
+export function getTranslation(lang: Local = defaultLocal) {
     return (key: TranslationKey, params?: TranslationParams): string =>
         formatMessage(ui[lang][key], params);
 }
 
 export function useTranslation(lang: Local = defaultLocal) {
-    return createTranslation(lang);
+    return getTranslation(lang);
 }
 
 export function getDateLocal(lang: Local): string {
