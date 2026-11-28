@@ -17,7 +17,7 @@ const Z_MID = 0;
 const Z_RANGE = 8;
 
 const CURSOR_STRENGTH = 8.0;
-const CURSOR_RADIUS = 4.0;
+const CURSOR_RADIUS = 3.0;
 const CURSOR_SOFTENING = 0.5;
 const CURSOR_MAX_FORCE = 2.0;
 

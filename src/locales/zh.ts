@@ -1,6 +1,7 @@
 export const zh = {
   heroEyebrow: "一种更注重思考的学习方式",
   heroTitle: "一步一步，构建真正的理解。",
+  landingIntro: "自主学习平台，科技博客；全栈练习、项目展示、长期回顾和社区学习中心",
   heroDescription:
     "选择一个学习目标，获得循序渐进的指导，并通过有针对性的练习巩固所学内容。",
   heroGetStarted: "开始学习",

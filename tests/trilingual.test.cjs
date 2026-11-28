@@ -47,8 +47,27 @@ test('returns a translation from each supported language', () => {
     assert.equal(trilingual.useTranslation('es')('navigationHome'), 'Inicio');
 });
 
+test('translates the landing intro in each supported language', () => {
+    assert.equal(
+        trilingual.useTranslation('en')('landingIntro'),
+        'Agent learning platform, tech blog; full-stack practice, project showcase, long-term learning',
+    );
+    assert.equal(
+        trilingual.useTranslation('zh')('landingIntro'),
+        '自主学习平台，科技博客；全栈练习、项目展示、长期回顾和社区学习中心',
+    );
+    assert.equal(
+        trilingual.useTranslation('es')('landingIntro'),
+        'Plataforma de aprendizaje agente, blog tecnológico; práctica de full‑stack, exhibición de proyectos, aprendizaje a largo plazo',
+    );
+});
+
 test('defaults translations to English', () => {
     assert.equal(trilingual.useTranslation()('navigationHome'), 'Home');
+    assert.equal(
+        trilingual.useTranslation()('landingIntro'),
+        'Agent learning platform, tech blog; full-stack practice, project showcase, long-term learning',
+    );
 });
 
 test('reads language prefixes and defaults unprefixed paths to English', () => {

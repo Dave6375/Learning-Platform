@@ -1,6 +1,8 @@
 export const es = {
   heroEyebrow: "Una forma más reflexiva de aprender",
   heroTitle: "Desarrolla tu comprensión, paso a paso.",
+  landingIntro:
+    "Plataforma de aprendizaje agente, blog tecnológico; práctica de full‑stack, exhibición de proyectos, aprendizaje a largo plazo",
   heroDescription:
     "Elige un objetivo de aprendizaje, recibe orientación y refuerza lo aprendido con práctica específica.",
   heroGetStarted: "Comenzar",

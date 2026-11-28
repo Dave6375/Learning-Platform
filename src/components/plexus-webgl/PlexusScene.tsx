@@ -18,6 +18,9 @@ export interface PlexusSceneProps {
     particleCount?: number;
     patternId?: HeroPatternId;
     language?: HeroPatternLanguage;
+    onEntryChange?: (pattern: HeroPatternId, index: number) => void;
+    onGroupAdvance?: () => void;
+    isPaused?: boolean;
 }
 
 interface SceneContentsProps {
@@ -25,9 +28,20 @@ interface SceneContentsProps {
     count: number;
     containerRef: RefObject<HTMLDivElement | null>;
     reducedMotion: boolean;
+    onEntryChange?: (pattern: HeroPatternId, index: number) => void;
+    onGroupAdvance?: () => void;
+    isPaused: boolean;
 }
 
-function SceneContents({ adapter, count, containerRef, reducedMotion }: SceneContentsProps) {
+function SceneContents({
+    adapter,
+    count,
+    containerRef,
+    reducedMotion,
+    onEntryChange,
+    onGroupAdvance,
+    isPaused,
+}: SceneContentsProps) {
     const theme = usePlexusTheme();
     const viewport = useThree((state) => state.viewport);
     const positionsBufferRef = useRef<Float32Array | null>(null);
@@ -74,6 +88,9 @@ function SceneContents({ adapter, count, containerRef, reducedMotion }: SceneCon
                 positionsBufferRef={positionsBufferRef}
                 cursorRef={cursorRef}
                 reducedMotion={reducedMotion}
+                onEntryChange={onEntryChange}
+                onGroupAdvance={onGroupAdvance}
+                isPaused={isPaused}
                 connectionDistanceRef={connectionDistanceRef}
             />
             <ConnectionLines
@@ -93,6 +110,9 @@ export function PlexusScene({
     particleCount = 500,
     patternId = 'signature',
     language = 'en',
+    onEntryChange,
+    onGroupAdvance,
+    isPaused = false,
 }: PlexusSceneProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [reducedMotion, setReducedMotion] = useState(false);
@@ -135,6 +155,9 @@ export function PlexusScene({
                     count={particleCount}
                     containerRef={containerRef}
                     reducedMotion={reducedMotion}
+                    onEntryChange={onEntryChange}
+                    onGroupAdvance={onGroupAdvance}
+                    isPaused={isPaused}
                 />
             </Canvas>
         </div>

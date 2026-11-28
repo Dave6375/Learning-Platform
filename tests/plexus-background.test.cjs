@@ -78,6 +78,15 @@ test('renders the Plexus scene with its particle, connection, and glow layers', 
     assert.match(scene, /usePlexusTheme/);
 });
 
+test('forwards entry cycling and pause props from the scene to the particle field', () => {
+    const scene = readSource('src', 'components', 'plexus-webgl', 'PlexusScene.tsx');
+
+    assert.match(scene, /onEntryChange\?: \(pattern: HeroPatternId, index: number\) => void;/);
+    assert.match(scene, /onGroupAdvance\?: \(\) => void;/);
+    assert.match(scene, /<ParticleField[\s\S]*?onEntryChange=\{onEntryChange\}[\s\S]*?onGroupAdvance=\{onGroupAdvance\}[\s\S]*?isPaused=\{isPaused\}/);
+    assert.match(scene, /<SceneContents[\s\S]*?onEntryChange=\{onEntryChange\}[\s\S]*?onGroupAdvance=\{onGroupAdvance\}[\s\S]*?isPaused=\{isPaused\}/);
+});
+
 test('loads the named scene only in the browser and exposes the public UI export', () => {
     const background = readSource('src', 'components', 'plexus-webgl', 'plexus-background.tsx');
     const publicBackground = readSource('src', 'components', 'ui', 'plexus-background.tsx');

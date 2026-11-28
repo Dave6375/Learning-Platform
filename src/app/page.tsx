@@ -1,7 +1,9 @@
+import Hero from "@/components/home/Hero";
+
 export default function Home() {
   return (
     <main>
-      <div>Hello world!</div>
+      <Hero lang="en" />
     </main>
   );
 }

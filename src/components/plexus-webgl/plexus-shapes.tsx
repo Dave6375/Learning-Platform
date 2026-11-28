@@ -1,8 +1,14 @@
 import { SIGNATURE_ANEX_PATHS, SIGNATURE_CHRONOS_PATHS } from './signature-paths';
 
 // =============================================================================
-// Shape generators for plexus-background
-// Pure functions with no React dependencies.
+/**
+ * Represents a point in three-dimensional space using numeric coordinates.
+ *
+ * Some shapes build paths from coordinates and sample points along them, such as the heptagram.
+ * Others calculate points using mathematical formulas, such as the spiral and galaxy.
+ * The saved paths for the ANEX and Chronos signatures are in signature-paths.ts; plexus-shapes.tsx imports them and samples points along them.
+ */
+
 // =============================================================================
 
 export interface Point3D {
@@ -508,9 +514,73 @@ function generateMobiusBand(n: number): Point3D[] {
     return normalize3D(pts);
 }
 
+// A classical amphora: a surface of revolution with two curved handles.
+function generateAmphora(n: number): Point3D[] {
+    const paths: Point3D[][] = [];
+    for (let meridian = 0; meridian < 12; meridian++) {
+        const angle = (meridian / 12) * Math.PI * 2;
+        const path: Point3D[] = [];
+        for (let i = 0; i <= 40; i++) {
+            const t = i / 40;
+            const radius = 0.14 + 0.4 * Math.pow(Math.sin(Math.PI * t), 1.4) + 0.06 * t;
+            path.push({ x: radius * Math.cos(angle), y: 1 - 2 * t, z: radius * Math.sin(angle) });
+        }
+        paths.push(path);
+    }
+    for (const side of [-1, 1]) {
+        const handle: Point3D[] = [];
+        for (let i = 0; i <= 24; i++) {
+            const t = i / 24;
+            handle.push({ x: side * (0.18 + 0.43 * Math.sin(Math.PI * t)), y: 0.75 - 0.85 * t, z: 0 });
+        }
+        paths.push(handle);
+    }
+    return normalize3D(sampleMultiPath3D(paths, n));
+}
+
+// A simplified front-facing outline of Christ the Redeemer and its pedestal.
+function generateRedeemer(n: number): Point3D[] {
+    const p = (x: number, y: number, z = 0): Point3D => ({ x, y, z });
+    const paths: Point3D[][] = [
+        [p(-0.1, 0.78), p(-0.12, 0.92), p(-0.07, 1), p(0.07, 1), p(0.12, 0.92), p(0.1, 0.78)],
+        [p(-0.1, 0.78), p(-0.25, 0.7), p(-0.95, 0.7), p(-1, 0.62), p(-0.95, 0.55), p(-0.55, 0.52), p(-0.3, 0.32), p(-0.34, -0.75)],
+        [p(0.1, 0.78), p(0.25, 0.7), p(0.95, 0.7), p(1, 0.62), p(0.95, 0.55), p(0.55, 0.52), p(0.3, 0.32), p(0.34, -0.75)],
+        [p(-0.34, -0.75), p(0.34, -0.75), p(0.42, -0.9), p(-0.42, -0.9), p(-0.34, -0.75)],
+        [p(-0.2, 0.5, 0.04), p(-0.14, 0.1, 0.04), p(-0.19, -0.73, 0.04)],
+        [p(0.2, 0.5, 0.04), p(0.14, 0.1, 0.04), p(0.19, -0.73, 0.04)],
+    ];
+    return normalize3D(sampleMultiPath3D(paths, n));
+}
+
+// Two helices and their connecting rungs suggest the structure of DNA.
+function generateDnaHelix(n: number): Point3D[] {
+    const paths: Point3D[][] = [[], []];
+    const turns = 2.5;
+    for (let i = 0; i <= 120; i++) {
+        const t = i / 120;
+        const angle = t * turns * Math.PI * 2;
+        for (let strand = 0; strand < 2; strand++) {
+            const a = angle + strand * Math.PI;
+            paths[strand].push({ x: 0.42 * Math.cos(a), y: 1 - 2 * t, z: 0.42 * Math.sin(a) });
+        }
+    }
+    for (let i = 0; i <= 15; i++) {
+        const t = i / 15;
+        const angle = t * turns * Math.PI * 2;
+        const x = 0.42 * Math.cos(angle);
+        const z = 0.42 * Math.sin(angle);
+        paths.push([{ x, y: 1 - 2 * t, z }, { x: -x, y: 1 - 2 * t, z: -z }]);
+    }
+    return normalize3D(sampleMultiPath3D(paths, n));
+}
+
 // =============================================================================
 // Shape configurations
 // =============================================================================
+
+const amphoraShape: ShapeConfig = { generate: generateAmphora, spinX: 0, spinY: 0.08, spinZ: 0, spread: 1.1 };
+const redeemerShape: ShapeConfig = { generate: generateRedeemer, spinX: 0, spinY: 0, spinZ: 0, spread: 1.1, jitter: 0.3 };
+const dnaHelixShape: ShapeConfig = { generate: generateDnaHelix, spinX: 0, spinY: 0.12, spinZ: 0, spread: 1.1 };
 
 const faravaharShape: ShapeConfig = {
     generate: generateFaravahar,
@@ -688,6 +758,9 @@ export const CODEX: readonly CodexEntry[] = [
         author: 'OSCAR WILDE',
         holdMs: 10_000,
     },
+    { name: { en: 'Greek Amphora', zh: '希腊双耳瓶' }, shape: amphoraShape, quote: 'EXPLORE THE STORIES OF THE ANCIENT WORLD.', holdMs: 10_000 },
+    { name: { en: 'Christ the Redeemer', zh: '救世基督像' }, shape: redeemerShape, quote: 'DISCOVER THE ART AND HISTORY THAT SHAPE OUR WORLD.', holdMs: 10_000 },
+    { name: { en: 'DNA Double Helix', zh: 'DNA双螺旋' }, shape: dnaHelixShape, quote: 'DISCOVER THE BUILDING BLOCKS OF LIFE.', holdMs: 10_000 },
 ];
 
 export const CODEX_CN: readonly CodexEntry[] = [
@@ -755,6 +828,9 @@ export const CODEX_CN: readonly CodexEntry[] = [
         author: '奥斯卡·王尔德',
         holdMs: 10_000,
     },
+    { name: { en: 'Greek Amphora', zh: '希腊双耳瓶' }, shape: amphoraShape, quote: '探索古代世界的故事。', holdMs: 10_000 },
+    { name: { en: 'Christ the Redeemer', zh: '救世基督像' }, shape: redeemerShape, quote: '探索塑造世界的艺术与历史。', holdMs: 10_000 },
+    { name: { en: 'DNA Double Helix', zh: 'DNA双螺旋' }, shape: dnaHelixShape, quote: '探索生命的基本结构。', holdMs: 10_000 },
 ];
 
 export const CLASSIC_VARIANTS = CODEX;

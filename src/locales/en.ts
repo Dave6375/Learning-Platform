@@ -1,6 +1,8 @@
 export const en = {
   heroEyebrow: "A more thoughtful way to learn",
   heroTitle: "Build understanding, one step at a time.",
+  landingIntro:
+    "Agent learning platform, tech blog; full-stack practice, project showcase, long-term learning",
   heroDescription:
     "Choose a learning goal, get guided support, and strengthen what you learn with focused practice.",
   heroGetStarted: "Get Started",
