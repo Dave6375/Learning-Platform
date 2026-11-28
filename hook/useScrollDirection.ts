@@ -4,7 +4,7 @@ const SCROLL_THRESHOLD = 10;
 const HOVER_ZONE_PX = 30;
 
 export function useScrollDirection() {
-    const [isVisible, setIsVisible] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
     const [isAtTop, setIsAtTop] = useState(false);
     const lastScrollY = useRef(0);
     const rafId = useRef(0);
@@ -16,17 +16,19 @@ export function useScrollDirection() {
         setIsAtTop(atTop);
 
         if (atTop) {
-            setIsVisible(false);
+            setIsVisible(true);
         } else {
             const delta = y -lastScrollY.current;
-            if (delta > SCROLL_THRESHOLD) {
+            if (delta >= SCROLL_THRESHOLD) {
                 setIsVisible(false);
-            } else if (delta < -SCROLL_THRESHOLD) {
+                lastScrollY.current = y;
+            } else if (delta <= -SCROLL_THRESHOLD) {
                 setIsVisible(true);
+                lastScrollY.current = y;
             }
         }
 
-        lastScrollY.current = y;
+        if (atTop) lastScrollY.current = y;
     }, [])
 
     useEffect(() => {
@@ -46,7 +48,7 @@ export function useScrollDirection() {
     useEffect(() => {
         const onMouseMove = (e: MouseEvent) => {
             if (e.clientY <= HOVER_ZONE_PX) {
-                setIsVisible(false);
+                setIsVisible(true);
             }
         };
 
