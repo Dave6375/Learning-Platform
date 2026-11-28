@@ -44,6 +44,7 @@ try {
 test('navigation items have translated labels and localized paths', () => {
     for (const [lang, label, href] of [['en', 'Home', '/'], ['zh', '首页', '/zh'], ['es', 'Inicio', '/es']]) {
         const items = navigation.getNavItems(lang);
+        assert.equal(items.length, 1);
         assert.equal(items[0].label, label);
         assert.equal(items[0].href, href);
         assert.ok(items.every((item) => typeof item.label === 'string' && item.label.length > 0));
@@ -57,6 +58,8 @@ test('active matching handles localized paths and nested pages', () => {
 });
 
 test('desktop and mobile menus render on the server', () => {
-    assert.match(renderToStaticMarkup(React.createElement(navigation.default, { lang: 'en', pathname: '/' })), /Main navigation/);
+    const desktop = renderToStaticMarkup(React.createElement(navigation.default, { lang: 'en', pathname: '/' }));
+    assert.match(desktop, /Main navigation/);
+    assert.match(desktop, /<a href="\/" aria-current="page"/);
     assert.match(renderToStaticMarkup(React.createElement(MobileMenu, { pathname: '/' })), /button/);
 });

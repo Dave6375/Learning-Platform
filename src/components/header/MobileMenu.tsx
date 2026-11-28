@@ -186,11 +186,12 @@ export function MobileMenu({
         return () => document.removeEventListener('keydown', trap);
     }, [open]);
 
-    // Return focus to trigger on close
+    // Return focus to trigger after the menu closes
     useEffect(() => {
-        if (!open) {
-            triggerRef.current?.focus();
-        }
+        const trigger = triggerRef.current;
+        if (open) return () => {
+            trigger?.focus();
+        };
     }, [open]);
 
     return (

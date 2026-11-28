@@ -12,7 +12,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)}>
+    <html lang="en" className={cn("font-sans", geist.variable)} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var theme=localStorage.getItem('theme');document.documentElement.classList.toggle('dark',theme!=='light')}catch(e){document.documentElement.classList.add('dark')}})()` }} />
+      </head>
       <body>{children}</body>
     </html>
   );

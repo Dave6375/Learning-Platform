@@ -12,6 +12,7 @@ import {
 import { ModeToggle } from './ModeToggle';
 import {ReactNode} from "react";
 import NavigationMenuDemo from "@/components/header/NavigationMenu";
+import { MobileMenu } from './MobileMenu';
 
 type Props = {
     lang?: Local;
@@ -54,7 +55,7 @@ export default function AutoHideHeader({
                            fontFamily: 'Permanent Marker',
                        }}
                        >
-                        Aion
+                        ANEX Kronos
                     </a>
 
                     {/** Desktop nav + actions cluster */}
@@ -77,6 +78,8 @@ export default function AutoHideHeader({
                                 {languageToggleIsLabel}
                             </a>
                         )}
+                        <ModeToggle />
+                        <MobileMenu lang={resolvedLang} pathname={resolvedPathname} />
                     </div>
 
                 </div>

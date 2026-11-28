@@ -19,6 +19,7 @@ import {
     getTranslation,
 } from '@/lib/trilingual';
 import { cn } from '@/lib/utils';
+import { NAV_CONFIG } from '@/nav-tabs/navigation';
 
 export type NavItem = {
     href: string;
@@ -26,16 +27,6 @@ export type NavItem = {
     label: string;
     only?: Locale;
 };
-
-const NAV_CONFIG = [
-    { key: 'navigationHome', path: '/' },
-    { key: 'navigationBlog', path: '/blog' },
-    { key: 'navigationStories', path: '/stories' },
-    { key: 'navigationProjects', path: '/projects' },
-    { key: 'navigationNotes', path: '/notes' },
-    { key: 'navigationFriends', path: '/friends' },
-    { key: 'navigationAbout', path: '/about' },
-] as const;
 
 export function getNavItems(lang: Locale): NavItem[] {
     const t = getTranslation(lang);
@@ -115,7 +106,6 @@ export default function NavigationMenuDemo({ lang, pathname }: Props) {
                 aria-label={t('navigationLabel')}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                onFocusCapture={handleMouseEnter}
                 onBlurCapture={(e) => {
                     if (!e.currentTarget.contains(e.relatedTarget)) {
                         setIsExpanded(false);
@@ -157,13 +147,15 @@ export default function NavigationMenuDemo({ lang, pathname }: Props) {
                         <AnimatePresence mode="popLayout" initial={false}>
                             {!isExpanded ? (
                                 // 默认收起态：精致的液态玻璃胶囊状态按钮
-                                <motion.div
+                                <motion.a
                                     key="collapsed-capsule"
+                                    href={activeItem?.href ?? '/'}
+                                    aria-current={isNavItemActive(resolvedPathname, activeItem?.matchPath ?? '/') ? 'page' : undefined}
                                     initial={{ opacity: 0, filter: 'blur(4px)', scale: 0.92 }}
                                     animate={{ opacity: 1, filter: 'blur(0px)', scale: 1 }}
                                     exit={{ opacity: 0, filter: 'blur(4px)', scale: 0.92 }}
                                     transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                                    className="group flex h-full cursor-pointer items-center gap-2 px-3.5"
+                                    className="group flex h-full cursor-pointer items-center gap-2 rounded-full px-3.5 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-foreground"
                                 >
                                     {/* 液态活体呼吸灯 */}
                                     <span className="relative flex h-2 w-2 items-center justify-center">
@@ -179,7 +171,7 @@ export default function NavigationMenuDemo({ lang, pathname }: Props) {
                                         size={13}
                                         className="text-neutral-500/80 transition-transform duration-300 group-hover:rotate-45 group-hover:text-neutral-900 dark:text-neutral-400 dark:group-hover:text-white"
                                     />
-                                </motion.div>
+                                </motion.a>
                             ) : (
                                 // Hover 展开态：连续展开的液态玻璃导航条
                                 <motion.div
